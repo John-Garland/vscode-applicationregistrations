@@ -1,9 +1,16 @@
 import { ApiApplication, AppRole, User } from "@microsoft/microsoft-graph-types";
-import { addYears, isAfter, isBefore, isDate } from "date-fns";
+import { addYears, isAfter, isBefore } from "date-fns";
 import { errorHandler } from "../error-handler";
 import { OwnerList } from "../models/owner-list";
 import { GraphApiRepository } from "../repositories/graph-api-repository";
 import { GraphResult } from "../types/graph-result";
+
+// Validates the number of keys pressed for deboucing input for application search.
+export const validateDebouncedInput = (value: string): string | undefined => {
+	if (value.length < 3) {
+		return "You must enter at least partial name of the API Application to filter the list. A minimum of 3 characters is required.";
+	}
+};
 
 // Validates the redirect URI as per https://learn.microsoft.com/en-us/azure/active-directory/develop/reply-url
 export const validateRedirectUri = (uri: string, context: string, existingRedirectUris: string[], isEditing: boolean, oldValue: string | undefined): string | undefined => {
@@ -36,12 +43,17 @@ export const validateRedirectUri = (uri: string, context: string, existingRedire
 
 // Validates the expiry date.
 export const validatePasswordCredentialExpiryDate = (expiry: string): string | undefined => {
-	const expiryDate = Date.parse(expiry);
+	// Check if the input string contains only valid characters in the right format
+	if (!/^\d{4}[-\/]\d{2}[-\/]\d{2}$/.test(expiry)) {
+		return "Expiry must be in the format YYYY-MM-DD or YYYY/MM/DD.";
+	}
+
+	const expiryDate = new Date(expiry);
 	const now = Date.now();
 	const maximumExpireDate = addYears(new Date(), 2);
 
 	//Check if the expiry date is a valid date.
-	if (Number.isNaN(expiryDate)) {
+	if (Number.isNaN(expiryDate.getTime())) {
 		return "Expiry must be a valid date.";
 	}
 
@@ -62,12 +74,12 @@ export const validatePasswordCredentialExpiryDate = (expiry: string): string | u
 export const validateScopeAdminDisplayName = (displayName: string): string | undefined => {
 	// Check the length of the display name.
 	if (displayName.length > 100) {
-		return "An admin display name cannot be longer than 100 characters.";
+		return "An admin consent display name cannot be longer than 100 characters.";
 	}
 
 	// Check the length of the display name.
 	if (displayName.length < 1) {
-		return "An admin display name cannot be empty.";
+		return "An admin consent display name cannot be empty.";
 	}
 
 	return undefined;
@@ -77,14 +89,14 @@ export const validateScopeAdminDisplayName = (displayName: string): string | und
 export const validateScopeUserDisplayName = (displayName: string): string | undefined => {
 	// Check the length of the display name.
 	if (displayName.length > 100) {
-		return "An admin display name cannot be longer than 100 characters.";
+		return "An user consent display name cannot be longer than 100 characters.";
 	}
 
 	return undefined;
 };
 
 // Validates the value of an scope.
-export const validateScopeValue = async (value: string, isEditing: boolean, existingValue: string | undefined, signInAudience: string, scopes: ApiApplication): Promise<string | undefined> => {
+export const validateScopeValue = (value: string, isEditing: boolean, existingValue: string | undefined, signInAudience: string, scopes: ApiApplication): string | undefined => {
 	// Check the length of the value.
 	switch (signInAudience) {
 		case "AzureADMyOrg":
@@ -98,9 +110,6 @@ export const validateScopeValue = async (value: string, isEditing: boolean, exis
 			if (value.length > 40) {
 				return "A value cannot be longer than 40 characters.";
 			}
-			break;
-		default:
-			break;
 	}
 
 	// Check the length of the value.

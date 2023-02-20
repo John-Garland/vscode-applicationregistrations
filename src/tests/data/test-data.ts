@@ -31,7 +31,28 @@ const seedApplications: any[] = [
 			acceptMappedClaims: null,
 			knownClientApplications: [],
 			requestedAccessTokenVersion: null,
-			oauth2PermissionScopes: [],
+			oauth2PermissionScopes: [
+				{
+					adminConsentDescription: "Sample description one",
+					adminConsentDisplayName: "Sample Scope One",
+					id: "2af52627-d1b4-408e-b188-ccca2a5cd33c",
+					isEnabled: true,
+					type: "User",
+					userConsentDescription: null,
+					userConsentDisplayName: null,
+					value: "Sample.One"
+				},
+				{
+					adminConsentDescription: "Sample description two",
+					adminConsentDisplayName: "Sample Scope Two",
+					id: "97956368-899b-4e0b-b51e-61743cb60f36",
+					isEnabled: true,
+					type: "Admin",
+					userConsentDescription: null,
+					userConsentDisplayName: null,
+					value: "Sample.Two"
+				}
+			],
 			preAuthorizedApplications: []
 		},
 		appRoles: [
@@ -166,7 +187,7 @@ const seedApplications: any[] = [
 		displayName: "Second Test App",
 		description: null,
 		identifierUris: [],
-		notes: null,
+		notes: "Second Test App",
 		signInAudience: "AzureADMultipleOrgs",
 		api: {
 			acceptMappedClaims: null,
@@ -201,6 +222,51 @@ const seedApplications: any[] = [
 				displayName: "First User",
 				userPrincipalName: "first@user.com",
 				mail: "first@user.com"
+			}
+		]
+	},
+	{
+		id: "2352b377-784d-4d20-a874-319ca672b637",
+		appId: "0515ee31-a64b-4a03-9d15-ff10c7dbfe39",
+		createdDateTime: "2023-01-01T00:00:00Z",
+		displayName: "Third Test App",
+		description: null,
+		identifierUris: [],
+		notes: null,
+		signInAudience: "AzureADMultipleOrgs",
+		api: {
+			acceptMappedClaims: null,
+			knownClientApplications: [],
+			requestedAccessTokenVersion: null,
+			oauth2PermissionScopes: [],
+			preAuthorizedApplications: []
+		},
+		appRoles: [],
+		keyCredentials: [],
+		passwordCredentials: [],
+		publicClient: {
+			redirectUris: []
+		},
+		requiredResourceAccess: [],
+		web: {
+			homePageUrl: null,
+			logoutUrl: null,
+			redirectUris: [],
+			implicitGrantSettings: {
+				enableAccessTokenIssuance: false,
+				enableIdTokenIssuance: false
+			},
+			redirectUriSettings: []
+		},
+		spa: {
+			redirectUris: []
+		},
+		owners: [
+			{
+				id: "b204cef1-baa1-4284-8ae1-2285a609ba35",
+				displayName: "Second User",
+				userPrincipalName: "second@user.com",
+				mail: "second@user.com"
 			}
 		]
 	}
@@ -390,6 +456,7 @@ export const seedServicePrincipals = [
 export const mockTenantId = "c7b3da28-01b8-46d3-9523-d1b24cbbde76";
 export const mockNewPasswordKeyId = "a7da2abf-da93-4bad-bf0b-6d9ee0d3e8ec";
 export const mockGraphApiAppId = "00000003-0000-0000-c000-000000000000";
+export const mockExposedApiId = seedApplications[0].api.oauth2PermissionScopes[0].id;
 export const mockApiScopeId = seedApplications[0].requiredResourceAccess[0].resourceAppId;
 export const mockAppObjectId = seedApplications[0].id;
 export const mockSecondAppObjectId = seedApplications[1].id;
@@ -421,4 +488,3 @@ export const mockPemCertificate = `-----BEGIN CERTIFICATE-----
 	3fWYhZsV9VHS/7gSsYBOktuSGCsEA8QE4nloJKG1RwlaVDcq6bs8Tj1GNHkqfZqF
 	x1sLjRM=
 	-----END CERTIFICATE-----`;
-
