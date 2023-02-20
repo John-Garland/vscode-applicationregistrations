@@ -12,6 +12,7 @@ import { PasswordCredentialService } from "./services/password-credential";
 import { RedirectUriService } from "./services/redirect-uri";
 import { RequiredResourceAccessService } from "./services/required-resource-access";
 import { SignInAudienceService } from "./services/sign-in-audience";
+import { TokenFlowService } from "./services/token-flow";
 import { copyValue } from "./utils/copy-value";
 import { setStatusBarMessage } from "./utils/status-bar";
 import { signInUser, signOutUser } from "./utils/authentication";
@@ -37,6 +38,7 @@ const passwordCredentialService = new PasswordCredentialService(graphRepository,
 const redirectUriService = new RedirectUriService(graphRepository, treeDataProvider);
 const requiredResourceAccessService = new RequiredResourceAccessService(graphRepository, treeDataProvider);
 const signInAudienceService = new SignInAudienceService(graphRepository, treeDataProvider);
+const tokenFlowService = new TokenFlowService(graphRepository, treeDataProvider);
 
 // Extension Activation
 export async function activate(context: ExtensionContext) {
@@ -126,6 +128,14 @@ export async function activate(context: ExtensionContext) {
 
 	// Sign In Audience Commands
 	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.editAudience`, async (item) => await signInAudienceService.edit(item)));
+
+	// Token Flow Commands
+	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.enableHybridFlow`, async (item) => await tokenFlowService.enableHybridFlow(item, true)));
+	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.disableHybridFlow`, async (item) => await tokenFlowService.enableHybridFlow(item, false)));
+	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.enableImplicitFlow`, async (item) => await tokenFlowService.enableImplicitFlow(item, true)));
+	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.disableImplicitFlow`, async (item) => await tokenFlowService.enableImplicitFlow(item, false)));
+	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.enablePublicClientFlows`, async (item) => await tokenFlowService.enablPublicClientFlows(item, true)));
+	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.disablePublicClientFlows`, async (item) => await tokenFlowService.enablPublicClientFlows(item, false)));	
 
 	// Owner Commands
 	context.subscriptions.push(commands.registerCommand(`${VIEW_NAME}.addOwner`, async (item) => await ownerService.add(item)));

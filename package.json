@@ -265,6 +265,30 @@
         "title": "Copy"
       },
       {
+        "command": "appRegistrations.enableHybridFlow",
+        "title": "Enable Hybrid Flow"
+      },
+      {
+        "command": "appRegistrations.disableHybridFlow",
+        "title": "Disable Hybrid Flow"
+      },
+      {
+        "command": "appRegistrations.enableImplicitFlow",
+        "title": "Enable Implicit Flow"
+      },
+      {
+        "command": "appRegistrations.disableImplicitFlow",
+        "title": "Disable Implicit Flow"
+      },
+      {
+        "command": "appRegistrations.enablePublicClientFlows",
+        "title": "Enable Public Client Flows"
+      },
+      {
+        "command": "appRegistrations.disablePublicClientFlows",
+        "title": "Disable Public Client Flows"
+      },
+      {
         "command": "appRegistrations.openUserInAzurePortal",
         "title": "Open In Azure Portal"
       },
@@ -524,6 +548,30 @@
           "when": "false"
         },
         {
+          "command": "appRegistrations.enableHybridFlow",
+          "when": "false"
+        },
+        {
+          "command": "appRegistrations.disableHybridFlow",
+          "when": "false"
+        },
+        {
+          "command": "appRegistrations.enableImplicitFlow",
+          "when": "false"
+        },
+        {
+          "command": "appRegistrations.disableImplicitFlow",
+          "when": "false"
+        },        
+        {
+          "command": "appRegistrations.enablePublicClientFlows",
+          "when": "false"
+        },
+        {
+          "command": "appRegistrations.disablePublicClientFlows",
+          "when": "false"
+        },        
+        {
           "command": "appRegistrations.openUserInAzurePortal",
           "when": "false"
         },
@@ -763,6 +811,36 @@
           "when": "view == appRegistrations && viewItem == AUDIENCE || viewItem == AUDIENCE-PARENT",
           "group": "appRegistrations@0"
         },
+        {
+          "command": "appRegistrations.enableHybridFlow",
+          "when": "view == appRegistrations && viewItem == HYBRID-FLOW-DISABLED",
+          "group": "appRegistrations@0"
+        },
+        {
+          "command": "appRegistrations.disableHybridFlow",
+          "when": "view == appRegistrations && viewItem == HYBRID-FLOW-ENABLED",
+          "group": "appRegistrations@0"
+        },        
+        {
+          "command": "appRegistrations.enableImplicitFlow",
+          "when": "view == appRegistrations && viewItem == IMPLICIT-FLOW-DISABLED",
+          "group": "appRegistrations@0"
+        },
+        {
+          "command": "appRegistrations.disableImplicitFlow",
+          "when": "view == appRegistrations && viewItem == IMPLICIT-FLOW-ENABLED",
+          "group": "appRegistrations@0"
+        },
+        {
+          "command": "appRegistrations.enablePublicClientFlows",
+          "when": "view == appRegistrations && viewItem == PUBLIC-CLIENT-FLOWS-DISABLED",
+          "group": "appRegistrations@1"
+        },
+        {
+          "command": "appRegistrations.disablePublicClientFlows",
+          "when": "view == appRegistrations && viewItem == PUBLIC-CLIENT-FLOWS-ENABLED",
+          "group": "appRegistrations@1"
+        },        
         {
           "command": "appRegistrations.editAppIdUri",
           "when": "view == appRegistrations && viewItem == APPID-URI || viewItem == APPID-URI-PARENT || viewItem == APPID-URI-EMPTY",

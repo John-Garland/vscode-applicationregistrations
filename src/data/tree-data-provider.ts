@@ -569,6 +569,49 @@ export class AppRegTreeDataProvider implements TreeDataProvider<AppRegItem> {
 							})
 						);
 
+						// Supported Token Flows
+						let isImplicitFlowEnabled = app.web?.implicitGrantSettings?.enableAccessTokenIssuance === true 
+													&& app.web?.implicitGrantSettings?.enableIdTokenIssuance === true;	
+						let isHybridFlowEnabled = app.web?.implicitGrantSettings?.enableIdTokenIssuance === true;
+						let arePublicClientFlowsEnabled = app.isFallbackPublicClient === true;
+
+						appRegItem.children!.push(
+							new AppRegItem({
+								label: "Supported Token Flows",
+								context: "TOKENFLOWS-PARENT",
+								objectId: app.id!,
+								iconPath: new ThemeIcon("symbol-interface", new ThemeColor("editor.foreground")),
+								baseIcon: new ThemeIcon("symbol-interface", new ThemeColor("editor.foreground")),
+								tooltip: "Supported token flows define the authentication flows that are supported by the application.",
+								children: [
+									new AppRegItem({
+										label: `Hybrid Flow: ${isHybridFlowEnabled? "Enabled" : "Disabled"}`,
+										context: isHybridFlowEnabled ? "HYBRID-FLOW-ENABLED": "HYBRID-FLOW-DISABLED",
+										objectId: app.id!,
+										iconPath: new ThemeIcon("symbol-field", new ThemeColor("editor.foreground")),
+										baseIcon: new ThemeIcon("symbol-field", new ThemeColor("editor.foreground")),
+										tooltip: "Allows the hybrid flow for authentication (includes retrieving ID tokens from the authorization endpoint)."
+									}),
+									new AppRegItem({
+										label: `Implicit Flow: ${isImplicitFlowEnabled? "Enabled" : "Disabled"}`,
+										context: isImplicitFlowEnabled ? "IMPLICIT-FLOW-ENABLED": "IMPLICIT-FLOW-DISABLED",
+										objectId: app.id!,
+										iconPath: new ThemeIcon("symbol-field", new ThemeColor("editor.foreground")),
+										baseIcon: new ThemeIcon("symbol-field", new ThemeColor("editor.foreground")),
+										tooltip: "Allows the implicit flow for authentication (includes retrieving both ID tokens and access tokens from the authorization endpoint)."
+									}),									
+									new AppRegItem({
+										label: `Public Client Flows: ${arePublicClientFlowsEnabled? "Enabled" : "Disabled"}`,
+										context: arePublicClientFlowsEnabled ? "PUBLIC-CLIENT-FLOWS-ENABLED": "PUBLIC-CLIENT-FLOWS-DISABLED",
+										objectId: app.id!,
+										iconPath: new ThemeIcon("symbol-field", new ThemeColor("editor.foreground")),
+										baseIcon: new ThemeIcon("symbol-field", new ThemeColor("editor.foreground")),
+										tooltip: "Enable plaintext password (Resource Owner Password Credential Flow), no keyboard (Device Code Flow), and SSO for domain-joined Windows (Windows Integrated Auth Flow) for mobile and desktop clients."
+									})								
+								]
+							})
+						);
+
 						// API Permissions
 						appRegItem.children!.push(
 							new AppRegItem({
